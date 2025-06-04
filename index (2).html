@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fractions Adventure – Grade 8 Quest</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Comic Sans MS', cursive;
+      text-align: center;
+      background: linear-gradient(to bottom, #fff0f5, #ffe4e1);
+    }
+    .stage {
+      display: none;
+      padding: 20px;
+    }
+    .active {
+      display: block;
+      animation: fadeIn 1s ease-in;
+    }
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+    h1 {
+      color: #ff1493;
+    }
+    .question-card {
+      background: #fff;
+      padding: 20px;
+      margin: 20px auto;
+      border-radius: 12px;
+      max-width: 600px;
+      box-shadow: 0 4px 15px rgba(255, 20, 147, 0.2);
+    }
+    .options button {
+      margin: 8px;
+      padding: 10px 20px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      background-color: #ff69b4;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .options button:hover {
+      transform: scale(1.1);
+      background-color: #ff1493;
+    }
+    .feedback {
+      margin-top: 15px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .next-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      background-color: #32cd32;
+      color: white;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🧙‍♀️ Welcome to the Fraction Wizard Journey! 🧙‍♂️</h1>
+
+  <div id="stage-container">
+    <div id="stage1" class="stage active">
+      <h2>Stage 1: Add Fractions 🍰</h2>
+      <div class="question-card">
+        <div id="q1">What is 1/4 + 1/5?</div>
+        <div class="options">
+          <button onclick="checkAnswer(0, '9/20', 'stage1')">9/20</button>
+          <button onclick="checkAnswer(1, '2/9', 'stage1')">2/9</button>
+          <button onclick="checkAnswer(2, '5/8', 'stage1')">5/8</button>
+        </div>
+        <div class="feedback" id="fb1"></div>
+        <button class="next-btn" id="next1" onclick="nextStage('stage2')">Next Stage →</button>
+      </div>
+    </div>
+
+    <div id="stage2" class="stage">
+      <h2>Stage 2: Multiply Fractions 🧮</h2>
+      <div class="question-card">
+        <div id="q2">What is 4/5 × 1?</div>
+        <div class="options">
+          <button onclick="checkAnswer(0, '4/5', 'stage2')">4/5</button>
+          <button onclick="checkAnswer(1, '5/4', 'stage2')">5/4</button>
+          <button onclick="checkAnswer(2, '1', 'stage2')">1</button>
+        </div>
+        <div class="feedback" id="fb2"></div>
+        <button class="next-btn" id="next2" onclick="nextStage('stage3')">Next Stage →</button>
+      </div>
+    </div>
+
+    <div id="stage3" class="stage">
+      <h2>Stage 3: Simplify Fractions 🧼</h2>
+      <div class="question-card">
+        <div id="q3">Simplify 9/4</div>
+        <div class="options">
+          <button onclick="checkAnswer(0, '9/4', 'stage3')">9/4</button>
+          <button onclick="checkAnswer(1, '2 1/4', 'stage3')">2 1/4</button>
+          <button onclick="checkAnswer(2, '4/9', 'stage3')">4/9</button>
+        </div>
+        <div class="feedback" id="fb3"></div>
+        <button class="next-btn" id="next3" onclick="nextStage('stage4')">Next Stage →</button>
+      </div>
+    </div>
+
+    <div id="stage4" class="stage">
+      <h2>Stage 4: Order Fractions 📏</h2>
+      <div class="question-card">
+        <div id="q4">Arrange in ascending order: 1/3, 5/2, 3/4, 5/6</div>
+        <div class="options">
+          <button onclick="checkAnswer(0, '1/3, 3/4, 5/6, 5/2', 'stage4')">1/3, 3/4, 5/6, 5/2</button>
+          <button onclick="checkAnswer(1, '5/2, 5/6, 3/4, 1/3', 'stage4')">5/2, 5/6, 3/4, 1/3</button>
+          <button onclick="checkAnswer(2, '1/3, 5/6, 3/4, 5/2', 'stage4')">1/3, 5/6, 3/4, 5/2</button>
+        </div>
+        <div class="feedback" id="fb4"></div>
+        <button class="next-btn" id="next4" onclick="nextStage('stage5')">Final Stage →</button>
+      </div>
+    </div>
+
+    <div id="stage5" class="stage">
+      <h2>Final Stage: Mixed Fractions 🎯</h2>
+      <div class="question-card">
+        <div id="q5">What is 1 1/1 + 2?</div>
+        <div class="options">
+          <button onclick="checkAnswer(0, '3', 'stage5')">3</button>
+          <button onclick="checkAnswer(1, '4', 'stage5')">4</button>
+          <button onclick="checkAnswer(2, '2.5', 'stage5')">2.5</button>
+        </div>
+        <div class="feedback" id="fb5"></div>
+        <button class="next-btn" id="next5" onclick="finishQuiz()">🎉 Finish Quiz 🎉</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="completion" class="stage">
+    <h2>🎉 You’ve completed the Fraction Wizard Quest! 🎉</h2>
+    <p>Great job, math master!</p>
+  </div>
+
+  <script>
+    function checkAnswer(selectedIndex, correctAnswer, stageId) {
+      const feedback = document.getElementById('fb' + stageId.slice(-1));
+      const options = document.querySelectorAll(`#${stageId} .options button`);
+      const chosenText = options[selectedIndex].textContent;
+
+      if (chosenText === correctAnswer) {
+        feedback.textContent = "✅ Correct! Well done.";
+        feedback.style.color = "green";
+        document.getElementById("next" + stageId.slice(-1)).style.display = "inline-block";
+      } else {
+        feedback.textContent = "❌ Oops! Try again.";
+        feedback.style.color = "red";
+      }
+    }
+
+    function nextStage(stageId) {
+      document.querySelector(".active").classList.remove("active");
+      document.getElementById(stageId).classList.add("active");
+    }
+
+    function finishQuiz() {
+      document.querySelector(".active").classList.remove("active");
+      document.getElementById("completion").classList.add("active");
+    }
+  </script>
+</body>
+</html>
