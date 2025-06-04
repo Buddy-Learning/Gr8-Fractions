@@ -1,176 +1,207 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Fractions Adventure – Grade 8 Quest</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Comic Sans MS', cursive;
-      text-align: center;
-      background: linear-gradient(to bottom, #fff0f5, #ffe4e1);
-    }
-    .stage {
-      display: none;
-      padding: 20px;
-    }
-    .active {
-      display: block;
-      animation: fadeIn 1s ease-in;
-    }
-    @keyframes fadeIn {
-      from {opacity: 0;}
-      to {opacity: 1;}
-    }
-    h1 {
-      color: #ff1493;
-    }
-    .question-card {
-      background: #fff;
-      padding: 20px;
-      margin: 20px auto;
-      border-radius: 12px;
-      max-width: 600px;
-      box-shadow: 0 4px 15px rgba(255, 20, 147, 0.2);
-    }
-    .options button {
-      margin: 8px;
-      padding: 10px 20px;
-      font-size: 18px;
-      border: none;
-      border-radius: 8px;
-      background-color: #ff69b4;
-      color: white;
-      cursor: pointer;
-      transition: transform 0.3s;
-    }
-    .options button:hover {
-      transform: scale(1.1);
-      background-color: #ff1493;
-    }
-    .feedback {
-      margin-top: 15px;
-      font-size: 18px;
-      font-weight: bold;
-    }
-    .next-btn {
-      margin-top: 20px;
-      padding: 10px 20px;
-      font-size: 16px;
-      border-radius: 8px;
-      background-color: #32cd32;
-      color: white;
-      display: none;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Grade 8 Fraction Quiz</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #b3e5fc, #81d4fa);
+    margin: 0;
+    padding: 30px 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  h1 {
+    color: #01579b;
+    margin-bottom: 15px;
+    font-size: 2.4rem;
+    text-align: center;
+  }
+  #question-box {
+    background: #fff;
+    max-width: 600px;
+    width: 100%;
+    border-radius: 14px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    padding: 25px 30px;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #0d47a1;
+    line-height: 1.4;
+    min-height: 140px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+  }
+  #variables {
+    font-weight: 400;
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+    color: #333;
+  }
+  input[type="text"] {
+    margin-top: 20px;
+    font-size: 1.4rem;
+    padding: 12px 18px;
+    border-radius: 10px;
+    border: 2px solid #81d4fa;
+    width: 260px;
+    text-align: center;
+    transition: border-color 0.3s ease;
+  }
+  input[type="text"]:focus {
+    outline: none;
+    border-color: #0288d1;
+  }
+  #submit-btn {
+    margin-top: 25px;
+    background-color: #0288d1;
+    border: none;
+    padding: 14px 32px;
+    border-radius: 12px;
+    color: white;
+    font-size: 1.3rem;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(2, 136, 209, 0.4);
+    transition: background-color 0.3s ease;
+  }
+  #submit-btn:hover {
+    background-color: #01579b;
+  }
+  #feedback {
+    margin-top: 20px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    min-height: 32px;
+    color: #004d40;
+  }
+  #score {
+    margin-top: 25px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #004d40;
+  }
+</style>
 </head>
 <body>
+<h1>🎉 Grade 8 Fraction Quiz - 20 Questions</h1>
 
-  <h1>🧙‍♀️ Welcome to the Fraction Wizard Journey! 🧙‍♂️</h1>
+<div id="question-box">
+  <div id="question-text"></div>
+</div>
 
-  <div id="stage-container">
-    <div id="stage1" class="stage active">
-      <h2>Stage 1: Add Fractions 🍰</h2>
-      <div class="question-card">
-        <div id="q1">What is 1/4 + 1/5?</div>
-        <div class="options">
-          <button onclick="checkAnswer(0, '9/20', 'stage1')">9/20</button>
-          <button onclick="checkAnswer(1, '2/9', 'stage1')">2/9</button>
-          <button onclick="checkAnswer(2, '5/8', 'stage1')">5/8</button>
-        </div>
-        <div class="feedback" id="fb1"></div>
-        <button class="next-btn" id="next1" onclick="nextStage('stage2')">Next Stage →</button>
-      </div>
-    </div>
+<input type="text" id="answer" placeholder="Enter answer (e.g. 3/4 or 1 1/2)" autocomplete="off" />
+<button id="submit-btn">Submit</button>
+<div id="feedback"></div>
+<div id="score">Score: 0 / 20</div>
 
-    <div id="stage2" class="stage">
-      <h2>Stage 2: Multiply Fractions 🧮</h2>
-      <div class="question-card">
-        <div id="q2">What is 4/5 × 1?</div>
-        <div class="options">
-          <button onclick="checkAnswer(0, '4/5', 'stage2')">4/5</button>
-          <button onclick="checkAnswer(1, '5/4', 'stage2')">5/4</button>
-          <button onclick="checkAnswer(2, '1', 'stage2')">1</button>
-        </div>
-        <div class="feedback" id="fb2"></div>
-        <button class="next-btn" id="next2" onclick="nextStage('stage3')">Next Stage →</button>
-      </div>
-    </div>
-
-    <div id="stage3" class="stage">
-      <h2>Stage 3: Simplify Fractions 🧼</h2>
-      <div class="question-card">
-        <div id="q3">Simplify 9/4</div>
-        <div class="options">
-          <button onclick="checkAnswer(0, '9/4', 'stage3')">9/4</button>
-          <button onclick="checkAnswer(1, '2 1/4', 'stage3')">2 1/4</button>
-          <button onclick="checkAnswer(2, '4/9', 'stage3')">4/9</button>
-        </div>
-        <div class="feedback" id="fb3"></div>
-        <button class="next-btn" id="next3" onclick="nextStage('stage4')">Next Stage →</button>
-      </div>
-    </div>
-
-    <div id="stage4" class="stage">
-      <h2>Stage 4: Order Fractions 📏</h2>
-      <div class="question-card">
-        <div id="q4">Arrange in ascending order: 1/3, 5/2, 3/4, 5/6</div>
-        <div class="options">
-          <button onclick="checkAnswer(0, '1/3, 3/4, 5/6, 5/2', 'stage4')">1/3, 3/4, 5/6, 5/2</button>
-          <button onclick="checkAnswer(1, '5/2, 5/6, 3/4, 1/3', 'stage4')">5/2, 5/6, 3/4, 1/3</button>
-          <button onclick="checkAnswer(2, '1/3, 5/6, 3/4, 5/2', 'stage4')">1/3, 5/6, 3/4, 5/2</button>
-        </div>
-        <div class="feedback" id="fb4"></div>
-        <button class="next-btn" id="next4" onclick="nextStage('stage5')">Final Stage →</button>
-      </div>
-    </div>
-
-    <div id="stage5" class="stage">
-      <h2>Final Stage: Mixed Fractions 🎯</h2>
-      <div class="question-card">
-        <div id="q5">What is 1 1/1 + 2?</div>
-        <div class="options">
-          <button onclick="checkAnswer(0, '3', 'stage5')">3</button>
-          <button onclick="checkAnswer(1, '4', 'stage5')">4</button>
-          <button onclick="checkAnswer(2, '2.5', 'stage5')">2.5</button>
-        </div>
-        <div class="feedback" id="fb5"></div>
-        <button class="next-btn" id="next5" onclick="finishQuiz()">🎉 Finish Quiz 🎉</button>
-      </div>
-    </div>
-  </div>
-
-  <div id="completion" class="stage">
-    <h2>🎉 You’ve completed the Fraction Wizard Quest! 🎉</h2>
-    <p>Great job, math master!</p>
-  </div>
-
-  <script>
-    function checkAnswer(selectedIndex, correctAnswer, stageId) {
-      const feedback = document.getElementById('fb' + stageId.slice(-1));
-      const options = document.querySelectorAll(`#${stageId} .options button`);
-      const chosenText = options[selectedIndex].textContent;
-
-      if (chosenText === correctAnswer) {
-        feedback.textContent = "✅ Correct! Well done.";
-        feedback.style.color = "green";
-        document.getElementById("next" + stageId.slice(-1)).style.display = "inline-block";
-      } else {
-        feedback.textContent = "❌ Oops! Try again.";
-        feedback.style.color = "red";
-      }
+<script>
+  // Parse mixed fractions or simple fractions to decimal
+  function parseFraction(str) {
+    str = str.trim();
+    if (!str) return null;
+    if (str.includes(' ')) {
+      // Mixed fraction e.g. "1 1/2"
+      let parts = str.split(' ');
+      let whole = parseInt(parts[0]);
+      let frac = parts[1].split('/');
+      let numerator = parseInt(frac[0]);
+      let denominator = parseInt(frac[1]);
+      if (isNaN(whole) || isNaN(numerator) || isNaN(denominator) || denominator === 0) return null;
+      return whole + numerator/denominator;
+    } else if (str.includes('/')) {
+      // Fraction e.g. "3/4"
+      let frac = str.split('/');
+      let numerator = parseInt(frac[0]);
+      let denominator = parseInt(frac[1]);
+      if (isNaN(numerator) || isNaN(denominator) || denominator === 0) return null;
+      return numerator/denominator;
+    } else {
+      // Whole number or decimal
+      let val = parseFloat(str);
+      return isNaN(val) ? null : val;
     }
+  }
 
-    function nextStage(stageId) {
-      document.querySelector(".active").classList.remove("active");
-      document.getElementById(stageId).classList.add("active");
-    }
+  // Questions array with answers as decimals or strings (for ordering)
+  const questions = [
+    { q: "Add: 1/3 + 1/6", a: 0.5 },
+    { q: "Simplify: 6/8", a: 0.75 },
+    { q: "Multiply: 2/5 × 3/4", a: 0.3 },
+    { q: "Order smallest to largest: 3/4, 2/3, 5/6", a: "2/3,3/4,5/6" },
+    { q: "Add mixed fractions: 1 1/2 + 2 2/3", a: 4.1667 },
+    { q: "Simplify: 9/12", a: 0.75 },
+    { q: "Multiply: 5/8 × 4/5", a: 0.5 },
+    { q: "Subtract: 7/8 - 1/4", a: 0.625 },
+    { q: "Add: 2/7 + 3/7", a: 0.7143 },
+    { q: "Convert to improper fraction: 3 2/5 (write as decimal)", a: 3.4 },
+    { q: "Multiply mixed: 1 1/3 × 3/4", a: 1 },
+    { q: "Simplify: 15/20", a: 0.75 },
+    { q: "Add: 4/9 + 5/9", a: 1 },
+    { q: "Order smallest to largest: 7/8, 3/4, 2/3", a: "2/3,3/4,7/8" },
+    { q: "Multiply: 3/7 × 14/15", a: 0.4 },
+    { q: "Add mixed: 2 3/4 + 1 2/3", a: 4.4167 },
+    { q: "Simplify: 10/25", a: 0.4 },
+    { q: "Subtract mixed: 4 1/2 - 2 3/4", a: 1.75 },
+    { q: "Multiply: 7/10 × 5/7", a: 0.5 },
+    { q: "Add: 1/2 + 1/3 + 1/6", a: 1 }
+  ];
 
-    function finishQuiz() {
-      document.querySelector(".active").classList.remove("active");
-      document.getElementById("completion").classList.add("active");
+  let currentQuestion = 0;
+  let score = 0;
+
+  function normalizeString(str) {
+    return str.toLowerCase().replace(/\s/g, '').replace(/,+/g, ',');
+  }
+
+  function checkAnswer(input, correct) {
+    if (typeof correct === "string") {
+      return normalizeString(input) === normalizeString(correct);
+    } else {
+      let val = parseFraction(input);
+      if (val === null) return false;
+      return Math.abs(val - correct) < 0.02;
     }
-  </script>
+  }
+
+  function showQuestion() {
+    if (currentQuestion >= questions.length) {
+      document.getElementById('question-text').textContent = "🎉 Well done! Quiz finished.";
+      document.getElementById('feedback').textContent = `Final Score: ${score} / 20`;
+      document.getElementById('answer').style.display = 'none';
+      document.getElementById('submit-btn').style.display = 'none';
+      return;
+    }
+    let q = questions[currentQuestion];
+    document.getElementById('question-text').textContent = `Question ${currentQuestion + 1} / 20\n\n${q.q}`;
+    document.getElementById('answer').value = "";
+    document.getElementById('feedback').textContent = "";
+  }
+
+  document.getElementById('submit-btn').addEventListener('click', () => {
+    let userAnswer = document.getElementById('answer').value.trim();
+    if (!userAnswer) {
+      alert("Please enter your answer!");
+      return;
+    }
+    let correctAnswer = questions[currentQuestion].a;
+    if (checkAnswer(userAnswer, correctAnswer)) {
+      document.getElementById('feedback').textContent = "✅ Correct!";
+      score++;
+    } else {
+      let correctStr = typeof correctAnswer === "string" ? correctAnswer : correctAnswer.toFixed(4);
+      document.getElementById('feedback').textContent = `❌ Incorrect! Correct answer: ${correctStr}`;
+    }
+    currentQuestion++;
+    document.getElementById('score').textContent = `Score: ${score} / 20`;
+    setTimeout(showQuestion, 1800);
+  });
+
+  showQuestion();
+</script>
 </body>
 </html>
